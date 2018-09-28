@@ -10,8 +10,15 @@ public class KickController {
 
     @MessageMapping("/participant")
     @SendTo("/topic/participants")
-    public Participant participant(final Participant particpant) {
-        System.out.println("Participant: " + particpant);
-        return particpant;
+    public Participant participant(final Participant participant) {
+        System.out.println("Participant: " + participant);
+        return participant;
+    }
+
+    @MessageMapping("/nonparticipant")
+    @SendTo("/topic/nonparticipants")
+    public Participant nonparticipant(final Participant participant) {
+        System.out.println("NonParticipant: " + participant);
+        return participant;
     }
 }

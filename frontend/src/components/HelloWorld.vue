@@ -2,11 +2,11 @@
   <div>
     <p v-if="isConnected">Connected to Server</p>
     <p v-if="participant">Participant: {{ participant }}</p>
-    <form v-on:submit.prevent="sendParticipant()">
-      <input v-model="firstName" class="input" type="text" placeholder="Vorname">
-      <input v-model="lastName" class="input" type="text" placeholder="Nachname">
-      <button>Abschicken</button>
-    </form>
+    <p v-if="nonparticipant">Non-Participant: {{ nonparticipant }}</p>
+    <input v-model="firstName" class="input" type="text" placeholder="Vorname">
+    <input v-model="lastName" class="input" type="text" placeholder="Nachname">
+    <button @click="sendParticipant()">Dabei</button>
+    <button @click="sendNonParticiapant()">Raus</button>
   </div>
 </template>
 
@@ -20,6 +20,7 @@ export default {
     return {
       isConnected: false,
       participant: null,
+      nonparticipant: null,
       firstName: '',
       lastName: ''
     }
@@ -33,6 +34,9 @@ export default {
         this.isConnected = true
         this.ws.subscribe('/topic/participants', (frame) => {
           this.participant = JSON.parse(frame.body)
+        })
+        this.ws.subscribe('/topic/nonparticipants', (frame) => {
+          this.nonparticipant = JSON.parse(frame.body)
         })
       }, (error) => {
         this.isConnected = false
@@ -49,6 +53,13 @@ export default {
       if (this.ws != null) {
         console.log('FirstName sent: ' + this.firstName)
         this.ws.send('/app/participant', JSON.stringify({
+          'firstName': this.firstName,
+          'lastName': this.lastName}), {})
+      }
+    },
+    sendNonParticiapant () {
+      if (this.ws != null) {
+        this.ws.send('/app/nonparticipant', JSON.stringify({
           'firstName': this.firstName,
           'lastName': this.lastName}), {})
       }
