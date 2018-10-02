@@ -4,7 +4,6 @@ import de.bowo.kick.model.NonParticipant;
 import de.bowo.kick.model.Participant;
 import de.bowo.kick.repository.NonParticipantRepository;
 import de.bowo.kick.repository.ParticipantRepository;
-import de.bowo.kick.repository.UserBaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
