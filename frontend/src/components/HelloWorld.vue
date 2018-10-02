@@ -1,12 +1,26 @@
 <template>
   <div>
     <p v-if="isConnected">Connected to Server</p>
-    <p v-if="participant">Participant: {{ participant }}</p>
-    <p v-if="nonparticipant">Non-Participant: {{ nonparticipant }}</p>
     <input v-model="firstName" class="input" type="text" placeholder="Vorname">
     <input v-model="lastName" class="input" type="text" placeholder="Nachname">
     <button @click="sendParticipant()">Dabei</button>
-    <button @click="sendNonParticiapant()">Raus</button>
+    <button @click="sendNonParticipant()">Raus</button>
+    <div v-if="participants">
+      <h4>Participants:</h4>
+      <ol>
+        <li v-bind:key="participant.id" v-for="participant in participants">
+          {{ participant.firstName }} {{ participant.lastName }}
+        </li>
+      </ol>
+    </div>
+    <div v-if="nonparticipants">
+      <h4>Non-Participants:</h4>
+      <ol>
+        <li v-bind:key="nonparticipant.id" v-for="nonparticipant in nonparticipants">
+          {{ nonparticipant.firstName }} {{ nonparticipant.lastName }}
+        </li>
+      </ol>
+    </div>
   </div>
 </template>
 
@@ -19,8 +33,8 @@ export default {
   data () {
     return {
       isConnected: false,
-      participant: null,
-      nonparticipant: null,
+      participants: null,
+      nonparticipants: null,
       firstName: '',
       lastName: ''
     }
@@ -33,10 +47,10 @@ export default {
       this.ws.connect({}, (frame) => {
         this.isConnected = true
         this.ws.subscribe('/topic/participants', (frame) => {
-          this.participant = JSON.parse(frame.body)
+          this.participants = JSON.parse(frame.body)
         })
         this.ws.subscribe('/topic/nonparticipants', (frame) => {
-          this.nonparticipant = JSON.parse(frame.body)
+          this.nonparticipants = JSON.parse(frame.body)
         })
       }, (error) => {
         this.isConnected = false
@@ -51,13 +65,12 @@ export default {
     },
     sendParticipant () {
       if (this.ws != null) {
-        console.log('FirstName sent: ' + this.firstName)
         this.ws.send('/app/participant', JSON.stringify({
           'firstName': this.firstName,
           'lastName': this.lastName}), {})
       }
     },
-    sendNonParticiapant () {
+    sendNonParticipant () {
       if (this.ws != null) {
         this.ws.send('/app/nonparticipant', JSON.stringify({
           'firstName': this.firstName,
