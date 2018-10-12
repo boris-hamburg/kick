@@ -26,9 +26,6 @@ public class SpieltagServiceImpl implements SpieltagService {
     @Autowired
     private SpieltagUserRepository spieltagUserRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Override public Spieltag ermittleAktuellenSpieltag() {
         Spieltag spieltag = spieltagRepository.findFirstByOrderById();
         if (spieltag == null) {
@@ -40,19 +37,16 @@ public class SpieltagServiceImpl implements SpieltagService {
     @Override public void teilnehmer(String firstName, String lastName) {
         User user = userRepository.findByFirstNameAndAndLastName(firstName, lastName);
         if (user == null) {
-            user = userRepository.saveAndFlush(new User(firstName, lastName));
-            entityManager.detach(user);
+            user = userRepository.save(new User(firstName, lastName));
         }
 
         Spieltag spieltag = spieltagRepository.findFirstByOrderById();
         if (spieltag == null) {
-            spieltag = spieltagRepository.saveAndFlush(new Spieltag());
-            entityManager.detach(spieltag);
+            spieltag = spieltagRepository.save(new Spieltag());
         }
 
         SpieltagUser spieltagUser = new SpieltagUser(spieltag, user);
-        spieltagUserRepository.saveAndFlush(spieltagUser);
-        entityManager.detach(spieltagUser);
+        spieltagUserRepository.save(spieltagUser);
     }
 
     @Override
