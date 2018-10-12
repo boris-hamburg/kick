@@ -35,7 +35,7 @@ public class SpieltagServiceImpl implements SpieltagService {
     }
 
     @Override public void teilnehmer(String firstName, String lastName) {
-        User user = userRepository.findByFirstNameAndAndLastName(firstName, lastName);
+        User user = userRepository.findByFirstNameAndLastName(firstName, lastName);
         if (user == null) {
             user = userRepository.save(new User(firstName, lastName));
         }
