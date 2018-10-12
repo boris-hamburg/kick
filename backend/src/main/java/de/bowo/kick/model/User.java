@@ -36,6 +36,10 @@ public class User {
         this.lastName = lastName;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override public String toString() {
         return "Participant{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + '}';
     }

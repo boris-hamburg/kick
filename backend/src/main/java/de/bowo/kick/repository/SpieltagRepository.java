@@ -1,13 +1,14 @@
 package de.bowo.kick.repository;
 
-import de.bowo.kick.model.User;
+import de.bowo.kick.model.Spieltag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository
 @Transactional
-public interface UserBaseRepository extends JpaRepository<User, Long> {
+@Repository
+public interface SpieltagRepository extends JpaRepository<Spieltag, Long> {
 
-    User findByFirstNameAndAndLastName(final String firstName, final String lastName);
+    Spieltag findFirstByOrderById();
+
 }

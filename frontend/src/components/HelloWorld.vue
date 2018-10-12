@@ -5,12 +5,12 @@
     <input v-model="lastName" class="input" type="text" placeholder="Nachname">
     <button @click="sendParticipant()">Dabei</button>
     <button @click="sendNonParticipant()">Raus</button>
-    <div v-if="participants">
+    <div v-if="spieltag">
       <h4>Participants:</h4>
       <ol>
-        <li v-bind:key="participant.id" v-for="participant in participants">
-          {{ participant.firstName }} {{ participant.lastName }}
-        </li>
+          <li v-bind:key="teilnehmer.id" v-for="teilnehmer in spieltag.teilnehmer">
+            {{ teilnehmer.firstName}} {{ teilnehmer.lastName }}
+          </li>
       </ol>
     </div>
     <div v-if="nonparticipants">
@@ -33,8 +33,8 @@ export default {
   data () {
     return {
       isConnected: false,
-      participants: null,
       nonparticipants: null,
+      spieltag: null,
       firstName: '',
       lastName: ''
     }
@@ -47,7 +47,7 @@ export default {
       this.ws.connect({}, (frame) => {
         this.isConnected = true
         this.ws.subscribe('/topic/participants', (frame) => {
-          this.participants = JSON.parse(frame.body)
+          this.spieltag = JSON.parse(frame.body)
         })
         this.ws.subscribe('/topic/nonparticipants', (frame) => {
           this.nonparticipants = JSON.parse(frame.body)

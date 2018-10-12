@@ -1,38 +1,36 @@
 package de.bowo.kick.controller;
 
-import de.bowo.kick.model.NonParticipant;
-import de.bowo.kick.model.Participant;
-import de.bowo.kick.repository.NonParticipantRepository;
-import de.bowo.kick.repository.ParticipantRepository;
+import de.bowo.kick.model.*;
+import de.bowo.kick.repository.*;
+import de.bowo.kick.service.SpieltagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class KickController {
 
     @Autowired
-    private ParticipantRepository participantRepository;
-
-    @Autowired
-    private NonParticipantRepository nonParticipantRepository;
+    private SpieltagService spieltagService;
 
     @MessageMapping("/participant")
     @SendTo("/topic/participants")
-    public List<Participant> participant(final Participant participant) {
-        participantRepository.save(participant);
-        final List<Participant> allParticipants = participantRepository.findAll();
-        return allParticipants;
+    public Spieltag participant(final Participant participant) {
+        spieltagService.teilnehmer(participant.getFirstName(), participant.getLastName());
+        final Spieltag spieltag = spieltagService.ermittleAktuellenSpieltag();
+        return spieltag;
     }
 
     @MessageMapping("/nonparticipant")
     @SendTo("/topic/nonparticipants")
     public List<NonParticipant> nonparticipant(final NonParticipant nonParticipant) {
-        nonParticipantRepository.save(nonParticipant);
-        final List<NonParticipant> allNonParticipants = nonParticipantRepository.findAll();
-        return allNonParticipants;
+        return Collections.emptyList();
     }
 }
