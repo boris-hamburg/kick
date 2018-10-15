@@ -9,7 +9,7 @@
       <h4>Participants:</h4>
       <ol>
           <li v-bind:key="teilnehmer.id" v-for="teilnehmer in spieltag.teilnehmer">
-            {{ teilnehmer.firstName}} {{ teilnehmer.lastName }}
+            {{ teilnehmer.firstName}} {{ teilnehmer.lastName }} {{ teilnehmer.joinedDate }}
           </li>
       </ol>
     </div>
