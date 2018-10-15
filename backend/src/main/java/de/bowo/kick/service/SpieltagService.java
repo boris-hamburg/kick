@@ -1,11 +1,11 @@
 package de.bowo.kick.service;
 
-import de.bowo.kick.model.Spieltag;
+import de.bowo.kick.dto.SpieltagDto;
 import de.bowo.kick.model.User;
 
 public interface SpieltagService {
 
-    Spieltag ermittleAktuellenSpieltag();
+    SpieltagDto ermittleAktuellenSpieltag();
 
     void teilnehmer(final User user);
 

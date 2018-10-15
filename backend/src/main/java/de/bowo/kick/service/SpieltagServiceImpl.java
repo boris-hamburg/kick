@@ -1,5 +1,7 @@
 package de.bowo.kick.service;
 
+import de.bowo.kick.dto.SpieltagDto;
+import de.bowo.kick.dto.UserDto;
 import de.bowo.kick.model.Spieltag;
 import de.bowo.kick.model.SpieltagUser;
 import de.bowo.kick.model.User;
@@ -26,11 +28,10 @@ public class SpieltagServiceImpl implements SpieltagService {
     @Autowired
     private SpieltagUserRepository spieltagUserRepository;
 
-    @Override public Spieltag ermittleAktuellenSpieltag() {
-        Spieltag spieltag = spieltagRepository.findFirstByOrderById();
-        if (spieltag == null) {
-            spieltag = new Spieltag();
-        }
+    @Override public SpieltagDto ermittleAktuellenSpieltag() {
+        final List<UserDto> teilnehmer = spieltagUserRepository.findeTeilnehmer();
+        final SpieltagDto spieltag = new SpieltagDto();
+        spieltag.setTeilnehmer(teilnehmer);
         return spieltag;
     }
 

@@ -1,8 +1,8 @@
 package de.bowo.kick.repository;
 
-import de.bowo.kick.model.Spieltag;
-import de.bowo.kick.model.SpieltagUser;
-import de.bowo.kick.model.User;
+import de.bowo.kick.dto.SpieltagDto;
+import de.bowo.kick.dto.UserDto;
+import de.bowo.kick.model.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,6 +63,14 @@ public class SpieltagUserRepositoryIntegrationTest {
         Assert.assertEquals(2, dbSpieltag.teilnehmer.size());
         Assert.assertEquals("Foo", dbSpieltag.teilnehmer.get(0).getFirstName());
         Assert.assertEquals("Bar", dbSpieltag.teilnehmer.get(1).getFirstName());
+
+        List<UserDto> participants = spieltagUserRepository.findeTeilnehmer();
+        Assert.assertNotNull(participants);
+        Assert.assertTrue(!participants.isEmpty());
+
+        for (UserDto participant : participants) {
+            System.out.println(participant.getFirstName() + " " + participant.getLastName() + " : " + participant.getJoinedDate());
+        }
     }
 
 }

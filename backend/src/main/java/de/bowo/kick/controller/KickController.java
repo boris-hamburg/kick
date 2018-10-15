@@ -1,5 +1,6 @@
 package de.bowo.kick.controller;
 
+import de.bowo.kick.dto.SpieltagDto;
 import de.bowo.kick.model.*;
 import de.bowo.kick.repository.*;
 import de.bowo.kick.service.SpieltagService;
@@ -22,9 +23,9 @@ public class KickController {
 
     @MessageMapping("/participant")
     @SendTo("/topic/participants")
-    public Spieltag participant(final Participant participant) {
+    public SpieltagDto participant(final Participant participant) {
         spieltagService.teilnehmer(participant.getFirstName(), participant.getLastName());
-        final Spieltag spieltag = spieltagService.ermittleAktuellenSpieltag();
+        final SpieltagDto spieltag = spieltagService.ermittleAktuellenSpieltag();
         return spieltag;
     }
 

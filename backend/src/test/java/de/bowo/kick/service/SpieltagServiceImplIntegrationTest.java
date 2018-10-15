@@ -1,5 +1,6 @@
 package de.bowo.kick.service;
 
+import de.bowo.kick.dto.SpieltagDto;
 import de.bowo.kick.model.Spieltag;
 import de.bowo.kick.repository.SpieltagRepository;
 import org.hamcrest.CoreMatchers;
@@ -37,9 +38,8 @@ public class SpieltagServiceImplIntegrationTest {
 
     @Test
     public void whenKeinAktuellerSpieltagGefunden_dannWirdNeuerGeliefert() {
-        final Spieltag spieltag = spieltagService.ermittleAktuellenSpieltag();
+        final SpieltagDto spieltag = spieltagService.ermittleAktuellenSpieltag();
         Assert.assertNotNull(spieltag);
-        Assert.assertNull(spieltag.getId());
     }
 
     @Test
@@ -47,10 +47,9 @@ public class SpieltagServiceImplIntegrationTest {
         Mockito.when(mockSpieltag.getId()).thenReturn(1L);
         Mockito.when(spieltagRepository.findFirstByOrderById()).thenReturn(mockSpieltag);
 
-        final Spieltag spieltag = spieltagService.ermittleAktuellenSpieltag();
+        final SpieltagDto spieltag = spieltagService.ermittleAktuellenSpieltag();
 
         Assert.assertNotNull(spieltag);
-        Assert.assertThat(spieltag.getId(), CoreMatchers.equalTo(1L));
     }
 
 }

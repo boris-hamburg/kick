@@ -1,5 +1,6 @@
 package de.bowo.kick.service;
 
+import de.bowo.kick.dto.SpieltagDto;
 import de.bowo.kick.model.Spieltag;
 import de.bowo.kick.model.User;
 import org.junit.Assert;
@@ -25,13 +26,13 @@ public class IntegrationTest {
     @Test
     public void sth() {
         spieltagService.teilnehmer(new User("Foo", "Foo"));
-        Spieltag spieltag = spieltagService.ermittleAktuellenSpieltag();
+        SpieltagDto spieltag = spieltagService.ermittleAktuellenSpieltag();
         Assert.assertNotNull(spieltag);
-        Assert.assertEquals(1, spieltag.teilnehmer.size());
+        Assert.assertEquals(1, spieltag.getTeilnehmer().size());
 
         spieltagService.teilnehmer(new User("Bar", "Bar"));
         spieltag = spieltagService.ermittleAktuellenSpieltag();
         Assert.assertNotNull(spieltag);
-        Assert.assertEquals(2, spieltag.teilnehmer.size());
+        Assert.assertEquals(2, spieltag.getTeilnehmer().size());
     }
 }

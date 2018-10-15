@@ -11,7 +11,7 @@ public class Spieltag {
     private Long id;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "spieltag_user",
+    @JoinTable(name = "SpieltagUser",
             joinColumns = @JoinColumn(referencedColumnName = "id", name = "spieltagId"),
             inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "userId"))
     public List<User> teilnehmer;

@@ -3,13 +3,11 @@ package de.bowo.kick.model;
 import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-@Entity(name = "SpieltagUserEntity")
-@Table(name = "spieltag_user")
+@Entity(name = "SpieltagUser")
 public class SpieltagUser implements Serializable {
 
     @EmbeddedId
